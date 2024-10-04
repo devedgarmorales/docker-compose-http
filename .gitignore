@@ -1,0 +1,52 @@
+# Archivos de entorno
+.env
+
+# Archivos generados por Docker
+*.log
+*.pid
+docker-compose.override.yml
+
+# Carpeta de datos y secretos de SQL Server
+mssql/
+
+# Archivos y carpetas específicos de SQL Server (si los tienes)
+mssql/data/
+mssql/log/
+mssql/secrets/
+
+# Archivos de sistema macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Archivos de caché del sistema
+*.sublime-workspace
+*.sublime-project
+*.vscode/
+
+# Archivos de caché de editores
+*.swp
+*.swo
+*.swn
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Archivos específicos de herramientas de desarrollo
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Otros archivos temporales
+*.bak
+*.orig
+
+# Otros directorios de caché
+node_modules/
+bower_components/
+
+# Carpetas de configuracion personal
+app/
+sites/

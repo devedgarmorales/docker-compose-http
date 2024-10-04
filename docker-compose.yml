@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./sites/nginx/conf.d:/etc/nginx/conf.d/
+      - nginx_logs:/var/log/nginx
+      - ./app:/app
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - webnet
+    depends_on:
+      - php
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  php:
+    image: php:fpm
+    volumes:
+      - ./app:/app
+    networks:
+      - webnet
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm -t || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  apache:
+    image: httpd:latest
+    volumes:
+      - ./sites/apache:/usr/local/apache2/conf.d
+      - ./app:/usr/local/apache2/htdocs/
+    ports:
+      - "8080:80"
+    networks:
+      - webnet
+    depends_on:
+      - php
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+networks:
+  webnet:
+    driver: bridge
+
+volumes:
+  nginx_logs:
